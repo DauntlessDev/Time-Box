@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: Column(
@@ -91,6 +91,7 @@ class LoginPage extends StatelessWidget {
                               height: 30),
                         ],
                       ),
+                      SizedBox(height: 15),
                       Text('Don\'t have an account? Sign up!'),
                     ],
                   ),
