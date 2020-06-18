@@ -1,11 +1,15 @@
+import 'package:TimeTracker/components/custombutton.dart';
+import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/screens/sign_up/signup_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+  static final id = 'LoginPage';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // backgroundColor: Colors.white,
-        backgroundColor: Colors.white,
+        backgroundColor: k_accentColor,
         body: SafeArea(
           child: Column(
             children: [
@@ -29,7 +33,7 @@ class LoginPage extends StatelessWidget {
                       Text(
                         '-timeBox-',
                         style: TextStyle(
-                            color: Colors.deepPurple,
+                            color: k_mainColor,
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'KaushanScript'),
@@ -59,20 +63,13 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 15),
-                      ButtonTheme(
-                        minWidth: double.infinity,
-                        child: FlatButton(
-                          padding: EdgeInsets.all(15),
-                          color: Colors.deepPurple,
-                          onPressed: () {},
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                      CustomButton(
+                        text: 'Login',
+                        color: k_mainColor,
+                        textcolor: k_whiteColor,
+                        onPressed: () {
+                          Navigator.pushNamed(context, LoginPage.id);
+                        },
                       ),
                       Text('or Sign in with', style: TextStyle(fontSize: 10)),
                       Row(
@@ -92,7 +89,11 @@ class LoginPage extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 15),
-                      Text('Don\'t have an account? Sign up!'),
+                      FlatButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, SignupPage.id);
+                          },
+                          child: Text('Don\'t have an account? Sign up!')),
                     ],
                   ),
                 ),

@@ -1,4 +1,6 @@
-import 'package:TimeTracker/screens/login_page.dart';
+import 'package:TimeTracker/screens/login/login_page.dart';
+import 'package:TimeTracker/screens/sign_up/signup_page.dart';
+import 'package:TimeTracker/screens/start/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
@@ -13,7 +15,12 @@ class MyApp extends StatelessWidget {
     FlutterStatusbarcolor.setStatusBarColor(Colors.black);
     return MaterialApp(
       title: 'timeBox',
-      home: LoginPage(),
+      initialRoute: StartPage.id,
+      routes: {
+        StartPage.id: (context) => StartPage(), 
+        LoginPage.id: (context) => LoginPage(),
+        SignupPage.id: (context) => SignupPage(),
+      },
     );
   }
 }
