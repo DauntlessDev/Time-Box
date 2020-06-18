@@ -1,3 +1,5 @@
+import 'package:TimeTracker/components/InputTextField.dart';
+import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/screens/sign_up/signup_page.dart';
@@ -9,6 +11,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         // backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         backgroundColor: k_accentColor,
         body: SafeArea(
           child: Column(
@@ -26,39 +29,25 @@ class LoginPage extends StatelessWidget {
               Expanded(
                 flex: 4,
                 child: Padding(
-                  padding: const EdgeInsets.all(50.0),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 50),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Text(
-                        '-timeBox-',
-                        style: TextStyle(
-                            color: k_mainColor,
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'KaushanScript'),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      AppTitle(),
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              'Username',
-                              style: TextStyle(color: Colors.grey),
+                            InputTextField(
+                              text: 'Username',
                             ),
-                            TextField(),
                             SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              'Password',
-                              style: TextStyle(color: Colors.grey),
+                            InputTextField(
+                              text: 'Password',
                             ),
-                            TextField(),
                           ],
                         ),
                       ),
