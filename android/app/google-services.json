@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "401045165156",
+    "firebase_url": "https://timebox-61251.firebaseio.com",
+    "project_id": "timebox-61251",
+    "storage_bucket": "timebox-61251.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401045165156:android:4347c6bdaaacbc478d3b71",
+        "android_client_info": {
+          "package_name": "com.dauntlessdev.TimeBox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401045165156-fa8o3dbdp59btsdrki86rt1mj86jt8h3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeC_v5M1swdcCFrcWzNXs9WPbrfue_C1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401045165156-fa8o3dbdp59btsdrki86rt1mj86jt8h3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

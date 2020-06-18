@@ -1,10 +1,17 @@
 import 'package:TimeTracker/components/InputTextField.dart';
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
+import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/screens/sign_up/signup_page.dart';
 import 'package:flutter/material.dart';
 
+/* This is the login page of the application 
+** where the user will be if they decided to sign in,
+** here it includes 3 main options of sign, firebase, 
+** google and facebook. Else if has no account,
+** they can create by clicking the no account text below 
+*/
 class LoginPage extends StatelessWidget {
   static final id = 'LoginPage';
   @override
@@ -16,16 +23,8 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("images/login_bg.png"),
-                        fit: BoxFit.fitWidth),
-                  ),
-                ),
-              ),
+              //Expanded container of backgroung picture with flex 1 
+              PurpleBackground(),
               Expanded(
                 flex: 4,
                 child: Padding(
@@ -37,6 +36,7 @@ class LoginPage extends StatelessWidget {
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Column(
+                          //For inputting username and password
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             InputTextField(
@@ -64,6 +64,7 @@ class LoginPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
+                          //For clickable login icon for google and facebook
                           Image(
                               image: AssetImage('images/gmail_icon.png'),
                               width: 30,
@@ -78,6 +79,7 @@ class LoginPage extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 15),
+                      //Create account text
                       FlatButton(
                           onPressed: () {
                             Navigator.pushNamed(context, SignupPage.id);

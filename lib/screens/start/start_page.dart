@@ -1,9 +1,14 @@
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
+import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
 
+
+/* This is the launching page of the application 
+** where the user can choose if sign in or later (go anonymous) 
+*/
 class StartPage extends StatelessWidget {
   static final id = 'StartPage';
   @override
@@ -13,16 +18,8 @@ class StartPage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("images/login_bg.png"),
-                        fit: BoxFit.fitWidth),
-                  ),
-                ),
-              ),
+              //Expanded container of backgroung picture with flex 1
+              PurpleBackground(),
               Expanded(
                 flex: 2,
                 child: Container(
@@ -31,6 +28,7 @@ class StartPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      //App Title -timeBox- design
                       AppTitle(),
                       CustomButton(
                         color: k_mainColor,
@@ -52,6 +50,7 @@ class StartPage extends StatelessWidget {
                   ),
                 ),
               ),
+              //Adding space to push the two buttons up in the middle.
               Expanded(
                 flex: 2,
                 child: Container(),

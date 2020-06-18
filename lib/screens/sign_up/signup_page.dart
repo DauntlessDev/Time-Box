@@ -1,9 +1,14 @@
 import 'package:TimeTracker/components/InputTextField.dart';
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
+import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:flutter/material.dart';
 
+/* This is the page of the application 
+** for creating account, has very similar design 
+** and widgets with the login page
+*/
 class SignupPage extends StatelessWidget {
   static final id = 'SignupPage';
   @override
@@ -13,16 +18,8 @@ class SignupPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("images/login_bg.png"),
-                      fit: BoxFit.fitWidth),
-                ),
-              ),
-            ),
+            //Expanded container of backgroung picture with flex 1
+            PurpleBackground(),
             Expanded(
               flex: 4,
               child: Padding(
@@ -30,9 +27,11 @@ class SignupPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    //App Title -timeBox- design
                     AppTitle(),
                     Align(
                       alignment: Alignment.bottomLeft,
+                      //Inputfields for creating account
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
