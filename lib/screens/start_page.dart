@@ -2,8 +2,9 @@ import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
-import 'package:TimeTracker/screens/login/login_page.dart';
+import 'package:TimeTracker/screens/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 /* This is the launching page of the application 
@@ -11,6 +12,14 @@ import 'package:flutter/material.dart';
 */
 class StartPage extends StatelessWidget {
   static final id = 'StartPage';
+
+  Future<void> _signInAnonymously() async {
+    try{
+    final auth = await FirebaseAuth.instance.signInAnonymously();
+    }catch(e){
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +52,7 @@ class StartPage extends StatelessWidget {
                         text: 'Later',
                         textcolor: k_blackColor,
                         onPressed: () {
+                          _signInAnonymously();
                           Navigator.pushNamed(context, LoginPage.id);
                         },
                       ),

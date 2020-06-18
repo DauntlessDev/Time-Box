@@ -3,7 +3,7 @@ import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
-import 'package:TimeTracker/screens/sign_up/signup_page.dart';
+import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 
 /* This is the login page of the application 
