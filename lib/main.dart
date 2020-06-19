@@ -1,7 +1,7 @@
 import 'package:TimeTracker/screens/landing_page.dart';
 import 'package:TimeTracker/screens/login_page.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
-import 'package:TimeTracker/screens/start_page.dart';
+import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
@@ -18,8 +18,9 @@ class MyApp extends StatelessWidget {
       title: 'timeBox',
       initialRoute: LandingPage.id,
       routes: {
-        LandingPage.id: (context) => LandingPage(), 
-        StartPage.id: (context) => StartPage(), 
+        LandingPage.id: (context) => LandingPage(auth: Auth(),), 
+        // StartPage.id: (context) => StartPage(), 
+        // HomePage.id: (context) => HomePage(), 
         LoginPage.id: (context) => LoginPage(),
         SignupPage.id: (context) => SignupPage(),
       },
