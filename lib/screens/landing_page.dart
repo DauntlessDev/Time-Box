@@ -1,5 +1,5 @@
 import 'package:TimeTracker/screens/home_page.dart';
-import 'package:TimeTracker/screens/start_page.dart';
+import 'package:TimeTracker/screens/login_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +7,7 @@ class LandingPage extends StatelessWidget {
   static final id = 'LandingPage';
 
   LandingPage({@required this.auth});
+
   final AuthBase auth;
 
   @override
@@ -17,7 +18,7 @@ class LandingPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             User user = snapshot.data;
             if (user == null) {
-              return StartPage(auth: auth);
+              return LoginPage(auth: auth);
             } else {
               return HomePage(auth: auth);
             }

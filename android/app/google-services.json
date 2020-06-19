@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "401045165156-m7rn3q2kjbdqivirepp55d0vi52ccorr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dauntlessdev.TimeBox",
+            "certificate_hash": "7b1fc472f5f699a1bcccd99ac3282df287cdf133"
+          }
+        },
+        {
           "client_id": "401045165156-fa8o3dbdp59btsdrki86rt1mj86jt8h3.apps.googleusercontent.com",
           "client_type": 3
         }
