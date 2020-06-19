@@ -59,7 +59,7 @@ class SignupPage extends StatelessWidget {
                       color: k_mainColor,
                       textcolor: k_whiteColor,
                       onPressed: () {
-                        //TODO: Create new firebase account
+                        //
                         Navigator.pop(context);
                       },
                     ),

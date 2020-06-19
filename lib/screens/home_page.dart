@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
   static final id = 'HomePage';
 
-  HomePage({@required this.auth, @required this.onSignOut});
+  HomePage({@required this.auth});
   final AuthBase auth;
-  final Function(User) onSignOut;
 
   Future<void> _signOut() async {
     try {
       await auth.signOut();
-      onSignOut(null);
     } catch (e) {
       print(e);
     }

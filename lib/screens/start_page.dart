@@ -13,9 +13,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 class StartPage extends StatefulWidget {
   static final id = 'StartPage';
 
-  StartPage({@required this.auth, @required this.onSignIn});
+  StartPage({@required this.auth});
   final AuthBase auth;
-  final Function(User) onSignIn;
 
   @override
   _StartPageState createState() => _StartPageState();
@@ -23,16 +22,13 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   bool showSpinner = false;
-  
+
   Future<void> _signInAnonymously() async {
     setState(() {
       showSpinner = true;
     });
     try {
-      User user = await widget.auth.signInAnonymously();
-      widget.onSignIn(user);
-
-      print(user.toString());
+      widget.auth.signInAnonymously();
     } catch (e) {
       print(e);
     }
