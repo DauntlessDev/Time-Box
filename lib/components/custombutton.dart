@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonTheme(
       minWidth: double.infinity,
-      child: FlatButton(
+      child: RaisedButton(
         padding: EdgeInsets.all(15),
         color: this.color,
         onPressed: this.onPressed,

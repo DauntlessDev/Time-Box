@@ -3,6 +3,7 @@ import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -30,28 +31,65 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
-  String username = "";
-  String password = "";
-  String confirmPassword = "";
+  String _username = "";
+  String _password = "";
+  String _confirmPassword = "";
+
+  //create input validator for show error text when user submitted and made mistakes
+  final _inputValidator = InputValidator();
 
   Future<void> _createWithEmailAndPassword() async {
-    try {
-      setSpinner(true);
+    _inputValidator.removeWarnings();
+    _inputValidator.toggleSubmit();
 
-      await widget.auth.createWithEmailAndPassword(
-          email: this.username, password: this.confirmPassword);
+    if (_password == _confirmPassword) {
+      try {
+        setSpinner(true);
 
-      Navigator.pop(context);
-    } catch (e) {
-      print(e);
-      setSpinner(false);
+        await widget.auth.createWithEmailAndPassword(
+            email: this._username, password: this._confirmPassword);
+
+        Navigator.pop(context);
+      } catch (e) {
+        print(e);
+
+        _inputValidator.submitFailed();
+        setSpinner(false);
+      }
+    } else {
+      setState(() {
+        _inputValidator.passwordDoesNotMatch();
+        _inputValidator.submitFailed();
+      });
     }
   }
 
+  FocusNode _passwordNode, _confirmPasswordNode;
+  void _emailComplete() {
+    Focus.of(context).requestFocus(_passwordNode);
+  }
+
+  void _passwordComplete() {
+    Focus.of(context).requestFocus(_confirmPasswordNode);
+  }
+
+  //Functions for input validations
+
+  bool submitEnabled = false;
+  void updateSubmitEnabled() {
+    setState(() {
+      submitEnabled = (_username.isNotEmpty &&
+          _password.isNotEmpty &&
+          _confirmPassword.isNotEmpty);
+    });
+  }
+
+  // UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: k_accentColor,
+      resizeToAvoidBottomInset: false,
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: SafeArea(
@@ -76,29 +114,49 @@ class _SignupPageState extends State<SignupPage> {
                           children: <Widget>[
                             InputTextField(
                               text: 'Username',
+                              onEditingComplete: _emailComplete,
+                              keyboardType: TextInputType.emailAddress,
+                              inputAction: TextInputAction.next,
                               callback: (value) {
-                                username = value;
+                                _username = value;
+                                updateSubmitEnabled();
                               },
+                              errorText: _inputValidator.checkSigupFields(
+                                  field: _username),
                             ),
                             SizedBox(
                               height: 20,
                             ),
                             InputTextField(
                               obsecured: true,
+                              focusNode: _passwordNode,
                               text: 'Password',
+                              onEditingComplete: _passwordComplete,
+                              inputAction: TextInputAction.next,
                               callback: (value) {
-                                password = value;
+                                _password = value;
+                                updateSubmitEnabled();
                               },
+                              errorText: _inputValidator.checkPassword(
+                                  passwordOne: _password,
+                                  passwordTwo: _confirmPassword),
                             ),
                             SizedBox(
                               height: 20,
                             ),
                             InputTextField(
                               obsecured: true,
+                              focusNode: _confirmPasswordNode,
                               text: 'Confirm Password',
+                              onEditingComplete: _createWithEmailAndPassword,
+                              inputAction: TextInputAction.done,
                               callback: (value) {
-                                confirmPassword = value;
+                                _confirmPassword = value;
+                                updateSubmitEnabled();
                               },
+                              errorText: _inputValidator.checkPassword(
+                                  passwordOne: _confirmPassword,
+                                  passwordTwo: _password),
                             ),
                           ],
                         ),
@@ -108,13 +166,8 @@ class _SignupPageState extends State<SignupPage> {
                         text: 'Create Account',
                         color: k_mainColor,
                         textcolor: k_whiteColor,
-                        onPressed: () async {
-                          //
-                          if (username.isNotEmpty &&
-                              (password == confirmPassword)) {
-                            await _createWithEmailAndPassword();
-                          }
-                        },
+                        onPressed:
+                            submitEnabled ? _createWithEmailAndPassword : null,
                       ),
                       FlatButton(
                           onPressed: () {

@@ -3,6 +3,7 @@ import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/input_validator.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -58,22 +59,39 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  String username ="";
-  String password ="";
+  String _username = "";
+  String _password = "";
+
+  //create input validator for show error text when user submitted and made mistakes
+  final _inputValidator = InputValidator();
 
   Future<void> _signInWithEmailAndPassword() async {
-    if (username.isNotEmpty && password.isNotEmpty) {
-      try {
-        setSpinner(true);
-        print(password);
-        await widget.auth
-            .signInWithEmailAndPassword(email: this.username, password: this.password);
-      } catch (e) {
-        print(e);
-        setSpinner(false);
-      }
+    _inputValidator.removeWarnings();
+    _inputValidator.toggleSubmit();
+    try {
+      setSpinner(true);
+      await widget.auth.signInWithEmailAndPassword(
+          email: this._username, password: this._password);
+    } catch (e) {
+      print(e);
+
+      _inputValidator.submitFailed();
+      setSpinner(false);
     }
   }
+
+  FocusNode _passwordNode;
+  void _emailComplete() {
+    Focus.of(context).requestFocus(_passwordNode);
+  }
+
+  bool submitEnabled = false;
+  void updateSubmitEnabled() {
+    return setState(() {
+      submitEnabled = (_username.isNotEmpty && _password.isNotEmpty);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +122,15 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               InputTextField(
                                 text: 'Username',
+                                inputAction: TextInputAction.done,
+                                keyboardType: TextInputType.emailAddress,
+                                onEditingComplete: _emailComplete,
                                 callback: (value) {
-                                  username = value;
+                                  _username = value;
+                                  updateSubmitEnabled();
                                 },
+                                errorText: _inputValidator.checkLoginFields(
+                                    field: _username),
                               ),
                               SizedBox(
                                 height: 20,
@@ -114,9 +138,15 @@ class _LoginPageState extends State<LoginPage> {
                               InputTextField(
                                 obsecured: true,
                                 text: 'Password',
+                                focusNode: _passwordNode,
+                                inputAction: TextInputAction.done,
+                                onEditingComplete: _signInWithEmailAndPassword,
                                 callback: (value) {
-                                  password = value;
+                                  _password = value;
+                                  updateSubmitEnabled();
                                 },
+                                errorText: _inputValidator.checkLoginFields(
+                                    field: _password),
                               ),
                             ],
                           ),
@@ -126,12 +156,14 @@ class _LoginPageState extends State<LoginPage> {
                           text: 'Login',
                           color: k_mainColor,
                           textcolor: k_whiteColor,
-                          onPressed: _signInWithEmailAndPassword,
+                          onPressed: submitEnabled
+                              ? _signInWithEmailAndPassword
+                              : null,
                         ),
                         CustomButton(
-                          color: Colors.grey[400],
+                          color: Colors.purple[300],
                           text: 'Login as Guest',
-                          textcolor: k_blackColor,
+                          textcolor: k_whiteColor,
                           onPressed: _signInAnonymously,
                         ),
                         Text('or Sign in with', style: TextStyle(fontSize: 10)),
@@ -139,19 +171,13 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             //For clickable login icon for google and facebook
-                            FlatButton(
+                            IconButton(
+                              assetLink: 'images/gmail_icon.png',
                               onPressed: _signInWithGoogle,
-                              child: Image(
-                                  image: AssetImage('images/gmail_icon.png'),
-                                  width: 30,
-                                  height: 30),
                             ),
-                            FlatButton(
+                            IconButton(
+                              assetLink: 'images/facebook_icon.png',
                               onPressed: _signInWithFacebook,
-                              child: Image(
-                                  image: AssetImage('images/facebook_icon.png'),
-                                  width: 30,
-                                  height: 30),
                             ),
                           ],
                         ),
@@ -170,5 +196,23 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ));
+  }
+}
+
+// for google and facebook icon login
+class IconButton extends StatelessWidget {
+  IconButton({@required this.onPressed, @required this.assetLink});
+
+  final Function onPressed;
+  final String assetLink;
+  @override
+  Widget build(BuildContext context) {
+    return ButtonTheme(
+      minWidth: double.minPositive,
+      child: FlatButton(
+        onPressed: this.onPressed,
+        child: Image(image: AssetImage(this.assetLink), width: 30, height: 30),
+      ),
+    );
   }
 }
