@@ -41,6 +41,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> _signInWithFacebook() async {
+    try {
+      await widget.auth.signInWithFacebook();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future<void> _signInAnonymously() async {
     try {
       setSpinner(true);
@@ -116,13 +124,13 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 30,
                                   height: 30),
                             ),
-                            SizedBox(
-                              width: 20,
+                            FlatButton(
+                              onPressed: _signInWithFacebook,
+                              child: Image(
+                                  image: AssetImage('images/facebook_icon.png'),
+                                  width: 30,
+                                  height: 30),
                             ),
-                            Image(
-                                image: AssetImage('images/facebook_icon.png'),
-                                width: 30,
-                                height: 30),
                           ],
                         ),
                         SizedBox(height: 15),
