@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         LandingPage.id: (context) => LandingPage(auth: this.auth),
         HomePage.id: (context) => HomePage(auth: this.auth),
         LoginPage.id: (context) => LoginPage(auth: this.auth),
-        SignupPage.id: (context) => SignupPage(),
+        SignupPage.id: (context) => SignupPage(auth: this.auth),
       },
     );
   }

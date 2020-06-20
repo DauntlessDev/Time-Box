@@ -2,9 +2,10 @@ import 'package:TimeTracker/constants.dart';
 import 'package:flutter/material.dart';
 
 class InputTextField extends StatelessWidget {
-  InputTextField({@required this.text});
+  InputTextField({@required this.text, @required this.callback});
 
   final String text;
+  final Function callback;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,9 @@ class InputTextField extends StatelessWidget {
           this.text,
           style: k_greyTextStyle,
         ),
-        TextField(),
+        TextField(
+          onChanged: callback,
+        ),
       ],
     );
   }
