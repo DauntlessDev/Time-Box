@@ -30,22 +30,22 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
-  String username;
-  String password;
-  String confirmPassword;
+  String username = "";
+  String password = "";
+  String confirmPassword = "";
 
   Future<void> _createWithEmailAndPassword() async {
     try {
       setSpinner(true);
-      User user =  await widget.auth
-          .createWithEmailAndPassword(email: username, password: password);
 
-          print(user.toString());
+      await widget.auth.createWithEmailAndPassword(
+          email: this.username, password: this.confirmPassword);
+
+      Navigator.pop(context);
     } catch (e) {
       print(e);
+      setSpinner(false);
     }
-
-    setSpinner(false);
   }
 
   @override
@@ -84,6 +84,7 @@ class _SignupPageState extends State<SignupPage> {
                               height: 20,
                             ),
                             InputTextField(
+                              obsecured: true,
                               text: 'Password',
                               callback: (value) {
                                 password = value;
@@ -93,6 +94,7 @@ class _SignupPageState extends State<SignupPage> {
                               height: 20,
                             ),
                             InputTextField(
+                              obsecured: true,
                               text: 'Confirm Password',
                               callback: (value) {
                                 confirmPassword = value;
@@ -112,8 +114,6 @@ class _SignupPageState extends State<SignupPage> {
                               (password == confirmPassword)) {
                             await _createWithEmailAndPassword();
                           }
-                          Navigator.pop(context);
-                          
                         },
                       ),
                       FlatButton(

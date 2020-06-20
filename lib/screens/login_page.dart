@@ -56,8 +56,23 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       print(e);
     }
+  }
 
-    setSpinner(false);
+  String username ="";
+  String password ="";
+
+  Future<void> _signInWithEmailAndPassword() async {
+    if (username.isNotEmpty && password.isNotEmpty) {
+      try {
+        setSpinner(true);
+        print(password);
+        await widget.auth
+            .signInWithEmailAndPassword(email: this.username, password: this.password);
+      } catch (e) {
+        print(e);
+        setSpinner(false);
+      }
+    }
   }
 
   @override
@@ -89,12 +104,19 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               InputTextField(
                                 text: 'Username',
+                                callback: (value) {
+                                  username = value;
+                                },
                               ),
                               SizedBox(
                                 height: 20,
                               ),
                               InputTextField(
+                                obsecured: true,
                                 text: 'Password',
+                                callback: (value) {
+                                  password = value;
+                                },
                               ),
                             ],
                           ),
@@ -104,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                           text: 'Login',
                           color: k_mainColor,
                           textcolor: k_whiteColor,
-                          onPressed: () {},
+                          onPressed: _signInWithEmailAndPassword,
                         ),
                         CustomButton(
                           color: Colors.grey[400],

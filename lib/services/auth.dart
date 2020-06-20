@@ -11,8 +11,10 @@ class User {
 abstract class AuthBase {
   Stream<User> get onAuthStateChanged;
   Future<User> currentUser();
-  Future<User> createWithEmailAndPassword({@required email, @required password});
-  Future<User> signInWithEmailAndPassword({@required email, @required password});
+  Future<User> createWithEmailAndPassword(
+      {@required email, @required password});
+  Future<User> signInWithEmailAndPassword(
+      {@required email, @required password});
   Future<User> signInAnonymously();
   Future<User> signInWithGoogle();
   Future<User> signInWithFacebook();
@@ -52,7 +54,7 @@ class Auth extends AuthBase {
   Future<User> signInWithEmailAndPassword(
       {@required email, @required password}) async {
     final authResult = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: email);
+        email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
 
@@ -60,7 +62,7 @@ class Auth extends AuthBase {
   Future<User> createWithEmailAndPassword(
       {@required email, @required password}) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: email);
+        email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
 
