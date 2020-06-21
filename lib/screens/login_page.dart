@@ -1,9 +1,9 @@
 import 'package:TimeTracker/components/InputTextField.dart';
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
+import 'package:TimeTracker/components/platform_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
-import 'package:TimeTracker/input_validator.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -62,20 +62,18 @@ class _LoginPageState extends State<LoginPage> {
   String _username = "";
   String _password = "";
 
-  //create input validator for show error text when user submitted and made mistakes
-  final _inputValidator = InputValidator();
-
   Future<void> _signInWithEmailAndPassword() async {
-    _inputValidator.removeWarnings();
-    _inputValidator.toggleSubmit();
     try {
       setSpinner(true);
       await widget.auth.signInWithEmailAndPassword(
           email: this._username, password: this._password);
     } catch (e) {
-      print(e);
+      PlatformAlertDialog(
+        confirmText: 'OK',
+        content: e.toString(),
+        title: 'Sign-in Failed',
+      ).show(context);
 
-      _inputValidator.submitFailed();
       setSpinner(false);
     }
   }
@@ -91,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
       submitEnabled = (_username.isNotEmpty && _password.isNotEmpty);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +126,6 @@ class _LoginPageState extends State<LoginPage> {
                                   _username = value;
                                   updateSubmitEnabled();
                                 },
-                                errorText: _inputValidator.checkLoginFields(
-                                    field: _username),
                               ),
                               SizedBox(
                                 height: 20,
@@ -145,8 +140,6 @@ class _LoginPageState extends State<LoginPage> {
                                   _password = value;
                                   updateSubmitEnabled();
                                 },
-                                errorText: _inputValidator.checkLoginFields(
-                                    field: _password),
                               ),
                             ],
                           ),

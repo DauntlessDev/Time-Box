@@ -28,12 +28,6 @@ class InputValidator {
                 : field.isEmpty ? 'Field can\'t be empty.' : null);
   }
 
-  String checkLoginFields({@required field}) {
-    return (_failed
-        ? 'Username/Password is invalid.'
-        : !_submitted ? null : field.isEmpty ? 'Field can\'t be empty.' : null);
-  }
-
   void passwordDoesNotMatch() {
     _passwordDoesNotMatch = true;
   }
