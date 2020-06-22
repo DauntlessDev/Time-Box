@@ -1,5 +1,3 @@
-//check if the user tried to submit but failed, if submitted, show error text
-
 import 'package:flutter/foundation.dart';
 
 class InputValidator {

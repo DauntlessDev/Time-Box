@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
           child: SafeArea(
             child: Column(
               children: [
-                //Expanded container of backgroung picture with flex 1
+                //Expanded container of background picture with flex 1
                 PurpleBackground(),
                 Expanded(
                   flex: 4,
@@ -159,7 +159,6 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            //For clickable login icon for google and facebook
                             IconButton(
                               assetLink: 'images/gmail_icon.png',
                               onPressed: _signInWithGoogle,
@@ -171,7 +170,6 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         SizedBox(height: 15),
-                        //Create account text
                         FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(context, SignupPage.id);

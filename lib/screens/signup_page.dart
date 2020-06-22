@@ -30,7 +30,6 @@ class _SignupPageState extends State<SignupPage> {
   String _password = "";
   String _confirmPassword = "";
 
-  //create input validator for show error text when user submitted and made mistakes
   final _inputValidator = InputValidator();
 
   Future<void> _createWithEmailAndPassword() async {
