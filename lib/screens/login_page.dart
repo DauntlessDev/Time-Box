@@ -6,9 +6,9 @@ import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
-import 'package:TimeTracker/services/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 /* This is the login page of the application 
 ** where the user will be if they decided to sign in,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    auth = AuthProvider.of(context);
+    auth = Provider.of<AuthBase>(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: k_accentColor,

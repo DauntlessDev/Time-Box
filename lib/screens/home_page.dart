@@ -1,15 +1,15 @@
 import 'package:TimeTracker/components/platform_alertdialog.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
-import 'package:TimeTracker/services/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   static final id = 'HomePage';
 
   @override
   Widget build(BuildContext context) {
-    final AuthBase auth = AuthProvider.of(context);
+    final AuthBase auth = Provider.of<AuthBase>(context);
     Future<void> _signOut() async {
       try {
         Future<bool> signout = PlatformAlertDialog(

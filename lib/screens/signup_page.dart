@@ -4,10 +4,10 @@ import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/input_validator.dart';
-import 'package:TimeTracker/services/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 /* This is the page of the application 
 ** for creating account, has very similar design 
@@ -85,7 +85,7 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    auth = AuthProvider.of(context);
+    auth = Provider.of<AuthBase>(context);
 
     return Scaffold(
       backgroundColor: k_accentColor,
