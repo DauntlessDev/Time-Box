@@ -1,6 +1,6 @@
-import 'package:TimeTracker/components/InputTextField.dart';
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
+import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/input_validator.dart';
