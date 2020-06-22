@@ -6,6 +6,7 @@ import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
+import 'package:TimeTracker/services/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -18,14 +19,13 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 class LoginPage extends StatefulWidget {
   static final id = 'LoginPage';
 
-  LoginPage({@required this.auth});
-  final AuthBase auth;
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  AuthBase auth;
+
   bool showSpinner = false;
 
   void setSpinner(bool state) {
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _signInWithGoogle() async {
     try {
-      await widget.auth.signInWithGoogle();
+      await auth.signInWithGoogle();
     } catch (e) {
       print(e.toString());
     }
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _signInWithFacebook() async {
     try {
-      await widget.auth.signInWithFacebook();
+      await auth.signInWithFacebook();
     } catch (e) {
       print(e.toString());
     }
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _signInAnonymously() async {
     try {
       setSpinner(true);
-      await widget.auth.signInAnonymously();
+      await auth.signInAnonymously();
     } catch (e) {
       print(e);
     }
@@ -65,8 +65,8 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _signInWithEmailAndPassword() async {
     try {
       setSpinner(true);
-      await widget.auth.signInWithEmailAndPassword(
-          email: this._username, password: this._password);
+      await auth.signInWithEmailAndPassword(
+          email: _username, password: _password);
     } catch (e) {
       PlatformAlertDialog(
         confirmText: 'OK',
@@ -92,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    auth = AuthProvider.of(context);
     return Scaffold(
-        // backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         backgroundColor: k_accentColor,
         body: ModalProgressHUD(

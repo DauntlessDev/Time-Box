@@ -4,6 +4,7 @@ import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/constants.dart';
 import 'package:TimeTracker/input_validator.dart';
+import 'package:TimeTracker/services/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -15,14 +16,12 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 class SignupPage extends StatefulWidget {
   static final id = 'SignupPage';
 
-  SignupPage({@required this.auth});
-  final AuthBase auth;
-
   @override
   _SignupPageState createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
+  AuthBase auth;
   bool showSpinner = false;
 
   void setSpinner(bool state) {
@@ -46,8 +45,8 @@ class _SignupPageState extends State<SignupPage> {
       try {
         setSpinner(true);
 
-        await widget.auth.createWithEmailAndPassword(
-            email: this._username, password: this._confirmPassword);
+        await auth.createWithEmailAndPassword(
+            email: _username, password: _confirmPassword);
 
         Navigator.pop(context);
       } catch (e) {
@@ -84,9 +83,10 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
-  // UI
   @override
   Widget build(BuildContext context) {
+    auth = AuthProvider.of(context);
+
     return Scaffold(
       backgroundColor: k_accentColor,
       resizeToAvoidBottomInset: false,
