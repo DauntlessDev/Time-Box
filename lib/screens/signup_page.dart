@@ -2,17 +2,13 @@ import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
-import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/services/constants.dart';
 import 'package:TimeTracker/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
-/* This is the page of the application 
-** for creating account, has very similar design 
-** and widgets with the login page
-*/
 class SignupPage extends StatefulWidget {
   static final id = 'SignupPage';
 
@@ -85,10 +81,11 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final constants = Constants.of(context);
     auth = Provider.of<AuthBase>(context);
 
     return Scaffold(
-      backgroundColor: k_accentColor,
+      backgroundColor: constants.accentColor,
       resizeToAvoidBottomInset: false,
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -164,8 +161,8 @@ class _SignupPageState extends State<SignupPage> {
                       SizedBox(height: 15),
                       CustomButton(
                         text: 'Create Account',
-                        color: k_mainColor,
-                        textcolor: k_whiteColor,
+                        color: constants.mainColor,
+                        textcolor: constants.whiteColor,
                         onPressed:
                             submitEnabled ? _createWithEmailAndPassword : null,
                       ),

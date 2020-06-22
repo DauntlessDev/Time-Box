@@ -3,19 +3,13 @@ import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/platform_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
-import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/services/constants.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
-/* This is the login page of the application 
-** where the user will be if they decided to sign in,
-** here it includes 3 main options of sign, firebase, 
-** google and facebook. Else if has no account,
-** they can create by clicking the no account text below 
-*/
 class LoginPage extends StatefulWidget {
   static final id = 'LoginPage';
 
@@ -92,10 +86,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final constants = Constants.of(context);
     auth = Provider.of<AuthBase>(context);
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: k_accentColor,
+        backgroundColor: constants.accentColor,
         body: ModalProgressHUD(
           inAsyncCall: showSpinner,
           child: SafeArea(
@@ -147,8 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: 15),
                         CustomButton(
                           text: 'Login',
-                          color: k_mainColor,
-                          textcolor: k_whiteColor,
+                          color: constants.mainColor,
+                          textcolor: constants.whiteColor,
                           onPressed: submitEnabled
                               ? _signInWithEmailAndPassword
                               : null,
@@ -156,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                         CustomButton(
                           color: Colors.purple[300],
                           text: 'Login as Guest',
-                          textcolor: k_whiteColor,
+                          textcolor: constants.whiteColor,
                           onPressed: _signInAnonymously,
                         ),
                         Text('or Sign in with', style: TextStyle(fontSize: 10)),
@@ -169,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: _signInWithGoogle,
                             ),
                             IconButton(
-                              assetLink: 'images/facebook_icon.png',
+                              assetLink: 'images/facebooconstants.icon.png',
                               onPressed: _signInWithFacebook,
                             ),
                           ],

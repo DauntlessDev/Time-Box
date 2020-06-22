@@ -1,3 +1,4 @@
+import 'package:TimeTracker/services/constants.dart';
 import 'package:TimeTracker/screens/home_page.dart';
 import 'package:TimeTracker/screens/landing_page.dart';
 import 'package:TimeTracker/screens/login_page.dart';
@@ -16,17 +17,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.black);
-    return Provider<AuthBase>(
-      create: (BuildContext context) => Auth(),
-      child: MaterialApp(
-        title: 'timeBox',
-        initialRoute: LandingPage.id,
-        routes: {
-          LandingPage.id: (context) => LandingPage(),
-          HomePage.id: (context) => HomePage(),
-          LoginPage.id: (context) => LoginPage(),
-          SignupPage.id: (context) => SignupPage(),
-        },
+    return Constants(
+      child: Provider<AuthBase>(
+        create: (BuildContext context) => Auth(),
+        child: MaterialApp(
+          title: 'timeBox',
+          initialRoute: LandingPage.id,
+          routes: {
+            LandingPage.id: (context) => LandingPage(),
+            HomePage.id: (context) => HomePage(),
+            LoginPage.id: (context) => LoginPage(),
+            SignupPage.id: (context) => SignupPage(),
+          },
+        ),
       ),
     );
   }

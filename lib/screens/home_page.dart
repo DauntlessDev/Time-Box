@@ -1,5 +1,5 @@
 import 'package:TimeTracker/components/platform_alertdialog.dart';
-import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/services/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final constants = Constants.of(context);
     final AuthBase auth = Provider.of<AuthBase>(context);
+
     Future<void> _signOut() async {
       try {
         Future<bool> signout = PlatformAlertDialog(
@@ -27,13 +29,13 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: k_mainColor,
+        backgroundColor: constants.mainColor,
         actions: <Widget>[
           FlatButton(
             onPressed: _signOut,
             child: Text(
               'Logout',
-              style: k_whiteTextStyle,
+              style: constants.whiteTextStyle,
             ),
           )
         ],

@@ -1,4 +1,4 @@
-import 'package:TimeTracker/constants.dart';
+import 'package:TimeTracker/services/constants.dart';
 import 'package:flutter/material.dart';
 
 class InputTextField extends StatelessWidget {
@@ -23,12 +23,14 @@ class InputTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final constants = Constants.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
           this.text,
-          style: k_greyTextStyle,
+          style: constants.greyTextStyle,
         ),
         TextField(
           onEditingComplete: this.onEditingComplete,
