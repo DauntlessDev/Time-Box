@@ -1,12 +1,13 @@
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/input_textfield.dart';
-import 'package:TimeTracker/components/platform_alertdialog.dart';
+import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/services/constants.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
@@ -28,19 +29,33 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  void showPlatformExceptionAlertDialog(Exception e) {
+    PlatformExceptionAlertDialog(title: 'Sign in', exception: e).show(context);
+  }
+
   Future<void> _signInWithGoogle() async {
     try {
+      setSpinner(true);
       await auth.signInWithGoogle();
+    } on PlatformException catch (e) {
+      showPlatformExceptionAlertDialog(e);
     } catch (e) {
       print(e.toString());
+    } finally {
+      setSpinner(false);
     }
   }
 
   Future<void> _signInWithFacebook() async {
     try {
+      setSpinner(true);
       await auth.signInWithFacebook();
+    } on PlatformException catch (e) {
+      showPlatformExceptionAlertDialog(e);
     } catch (e) {
       print(e.toString());
+    } finally {
+      setSpinner(false);
     }
   }
 
@@ -48,8 +63,12 @@ class _LoginPageState extends State<LoginPage> {
     try {
       setSpinner(true);
       await auth.signInAnonymously();
+    } on PlatformException catch (e) {
+      showPlatformExceptionAlertDialog(e);
     } catch (e) {
       print(e);
+    } finally {
+      setSpinner(false);
     }
   }
 
@@ -61,13 +80,11 @@ class _LoginPageState extends State<LoginPage> {
       setSpinner(true);
       await auth.signInWithEmailAndPassword(
           email: _username, password: _password);
+    } on PlatformException catch (e) {
+      showPlatformExceptionAlertDialog(e);
     } catch (e) {
-      PlatformAlertDialog(
-        confirmText: 'OK',
-        content: e.toString(),
-        title: 'Sign-in Failed',
-      ).show(context);
-
+      print(e);
+    } finally {
       setSpinner(false);
     }
   }
@@ -164,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: _signInWithGoogle,
                             ),
                             IconButton(
-                              assetLink: 'images/facebooconstants.icon.png',
+                              assetLink: 'images/facebook_icon.png',
                               onPressed: _signInWithFacebook,
                             ),
                           ],

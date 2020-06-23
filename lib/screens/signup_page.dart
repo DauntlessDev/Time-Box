@@ -1,11 +1,13 @@
 import 'package:TimeTracker/components/apptitle.dart';
 import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/input_textfield.dart';
+import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/services/constants.dart';
-import 'package:TimeTracker/input_validator.dart';
+import 'package:TimeTracker/utils/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +46,11 @@ class _SignupPageState extends State<SignupPage> {
             email: _username, password: _confirmPassword);
 
         Navigator.pop(context);
+      } on PlatformException catch (e) {
+        PlatformExceptionAlertDialog(title: 'Sign up', exception: e).show(context);
       } catch (e) {
         print(e);
-
+      } finally {
         _inputValidator.submitFailed();
         setSpinner(false);
       }

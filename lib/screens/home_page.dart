@@ -1,7 +1,9 @@
 import 'package:TimeTracker/components/platform_alertdialog.dart';
+import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/services/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,7 +26,11 @@ class HomePage extends StatelessWidget {
         if (await signout) {
           await auth.signOut();
         }
-      } catch (e) {}
+      } on PlatformException catch (e) {
+        PlatformExceptionAlertDialog(title: 'Sign out', exception: e);
+      } catch (e) {
+        print(e);
+      }
     }
 
     return Scaffold(
