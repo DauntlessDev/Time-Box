@@ -1,6 +1,6 @@
 import 'package:TimeTracker/components/platform_alertdialog.dart';
 import 'package:TimeTracker/components/platformexception_alertdialog.dart';
-import 'package:TimeTracker/services/constants.dart';
+import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

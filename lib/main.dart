@@ -1,4 +1,4 @@
-import 'package:TimeTracker/services/constants.dart';
+import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/screens/home_page.dart';
 import 'package:TimeTracker/screens/landing_page.dart';
 import 'package:TimeTracker/screens/login_page.dart';

@@ -3,7 +3,7 @@ import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
-import 'package:TimeTracker/services/constants.dart';
+import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/utils/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
