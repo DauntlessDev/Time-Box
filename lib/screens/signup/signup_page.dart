@@ -3,8 +3,8 @@ import 'package:TimeTracker/components/custombutton.dart';
 import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
+import 'package:TimeTracker/screens/signup/signup_changemodel.dart';
 import 'package:TimeTracker/utils/constants.dart';
-import 'package:TimeTracker/utils/input_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/services.dart';
@@ -14,51 +14,37 @@ import 'package:provider/provider.dart';
 class SignupPage extends StatefulWidget {
   static final id = 'SignupPage';
 
+  SignupPage({@required this.model});
+  final SignupChangeModel model;
+
+  static Widget create(BuildContext context) {
+    final AuthBase auth = Provider.of<AuthBase>(context);
+    return ChangeNotifierProvider<SignupChangeModel>(
+      create: (context) => SignupChangeModel(auth: auth),
+      child: Consumer<SignupChangeModel>(
+        builder:
+            (BuildContext context, SignupChangeModel model, Widget child) =>
+                SignupPage(model: model),
+      ),
+    );
+  }
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-  AuthBase auth;
-  bool showSpinner = false;
-
-  void setSpinner(bool state) {
-    setState(() {
-      showSpinner = state;
-    });
-  }
-
-  String _username = "";
-  String _password = "";
-  String _confirmPassword = "";
-
-  final _inputValidator = InputValidator();
-
+  SignupChangeModel get model => widget.model;
   Future<void> _createWithEmailAndPassword() async {
-    _inputValidator.removeWarnings();
-    _inputValidator.toggleSubmit();
+    try {
+      await model.createWithEmailAndPassword();
 
-    if (_password == _confirmPassword) {
-      try {
-        setSpinner(true);
-
-        await auth.createWithEmailAndPassword(
-            email: _username, password: _confirmPassword);
-
-        Navigator.pop(context);
-      } on PlatformException catch (e) {
-        PlatformExceptionAlertDialog(title: 'Sign up', exception: e).show(context);
-      } catch (e) {
-        print(e);
-      } finally {
-        _inputValidator.submitFailed();
-        setSpinner(false);
-      }
-    } else {
-      setState(() {
-        _inputValidator.passwordDoesNotMatch();
-        _inputValidator.submitFailed();
-      });
+      Navigator.pop(context);
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(title: 'Sign up', exception: e)
+          .show(context);
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -71,27 +57,14 @@ class _SignupPageState extends State<SignupPage> {
     Focus.of(context).requestFocus(_confirmPasswordNode);
   }
 
-  //Functions for input validations
-
-  bool submitEnabled = false;
-  void updateSubmitEnabled() {
-    setState(() {
-      submitEnabled = (_username.isNotEmpty &&
-          _password.isNotEmpty &&
-          _confirmPassword.isNotEmpty);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final constants = Constants.of(context);
-    auth = Provider.of<AuthBase>(context);
-
     return Scaffold(
       backgroundColor: constants.accentColor,
       resizeToAvoidBottomInset: false,
       body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
+        inAsyncCall: model.isLoading,
         child: SafeArea(
           child: Column(
             children: [
@@ -117,12 +90,7 @@ class _SignupPageState extends State<SignupPage> {
                               onEditingComplete: _emailComplete,
                               keyboardType: TextInputType.emailAddress,
                               inputAction: TextInputAction.next,
-                              callback: (value) {
-                                _username = value;
-                                updateSubmitEnabled();
-                              },
-                              errorText: _inputValidator.checkSigupFields(
-                                  field: _username),
+                              callback: model.updateEmail,
                             ),
                             SizedBox(
                               height: 20,
@@ -133,13 +101,8 @@ class _SignupPageState extends State<SignupPage> {
                               text: 'Password',
                               onEditingComplete: _passwordComplete,
                               inputAction: TextInputAction.next,
-                              callback: (value) {
-                                _password = value;
-                                updateSubmitEnabled();
-                              },
-                              errorText: _inputValidator.checkPassword(
-                                  passwordOne: _password,
-                                  passwordTwo: _confirmPassword),
+                              callback: model.updatePassword,
+                              errorText: model.checkPasswordField(),
                             ),
                             SizedBox(
                               height: 20,
@@ -150,14 +113,9 @@ class _SignupPageState extends State<SignupPage> {
                               text: 'Confirm Password',
                               onEditingComplete: _createWithEmailAndPassword,
                               inputAction: TextInputAction.done,
-                              callback: (value) {
-                                _confirmPassword = value;
-                                updateSubmitEnabled();
-                              },
-                              errorText: _inputValidator.checkPassword(
-                                  passwordOne: _confirmPassword,
-                                  passwordTwo: _password),
-                            ),
+                              callback: model.updateConfirmPassword,
+                              errorText: model.checkConfirmPasswordField(),
+                            )
                           ],
                         ),
                       ),
@@ -166,8 +124,9 @@ class _SignupPageState extends State<SignupPage> {
                         text: 'Create Account',
                         color: constants.mainColor,
                         textcolor: constants.whiteColor,
-                        onPressed:
-                            submitEnabled ? _createWithEmailAndPassword : null,
+                        onPressed: model.submitEnabled
+                            ? _createWithEmailAndPassword
+                            : null,
                       ),
                       FlatButton(
                           onPressed: () {

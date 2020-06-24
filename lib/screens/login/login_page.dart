@@ -6,7 +6,7 @@ import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/screens/login/login_bloc.dart';
 import 'package:TimeTracker/screens/login/login_model.dart';
 import 'package:TimeTracker/utils/constants.dart';
-import 'package:TimeTracker/screens/signup_page.dart';
+import 'package:TimeTracker/screens/signup/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -173,7 +173,11 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 15),
                     FlatButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, SignupPage.id);
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (context) => SignupPage.create(context),
+                            ),
+                          );
                         },
                         child: Text('Don\'t have an account? Sign up!')),
                   ],
