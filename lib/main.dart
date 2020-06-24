@@ -1,7 +1,6 @@
 import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/screens/home_page.dart';
 import 'package:TimeTracker/screens/landing_page.dart';
-import 'package:TimeTracker/screens/login_page.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
           routes: {
             LandingPage.id: (context) => LandingPage(),
             HomePage.id: (context) => HomePage(),
-            LoginPage.id: (context) => LoginPage(),
+            // LoginPage.id: (context) => LoginPage(),
             SignupPage.id: (context) => SignupPage(),
           },
         ),

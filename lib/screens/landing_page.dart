@@ -1,5 +1,5 @@
 import 'package:TimeTracker/screens/home_page.dart';
-import 'package:TimeTracker/screens/login_page.dart';
+import 'package:TimeTracker/screens/login/login_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,7 @@ class LandingPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             User user = snapshot.data;
             if (user == null) {
-              return LoginPage();
+              return LoginPage.create(context);
             } else {
               return HomePage();
             }

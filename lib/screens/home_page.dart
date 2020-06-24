@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         Future<bool> signout = PlatformAlertDialog(
           confirmText: 'Confirm',
           cancelText: 'Cancel',
-          content: 'Are you sure in loggin out the account?',
+          content: 'Are you sure in logging out?',
           title: 'Log-out',
         ).show(context);
 
