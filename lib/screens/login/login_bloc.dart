@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:TimeTracker/screens/login/login_model.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -7,35 +8,66 @@ class LoginBloc {
   LoginBloc({@required this.auth});
   final AuthBase auth;
 
-  final StreamController<bool> _isLoadingController = StreamController<bool>();
-  Stream<bool> get isLoadingStream => _isLoadingController.stream;
+  final StreamController<LoginModel> _loginController =
+      StreamController<LoginModel>();
+  Stream<LoginModel> get loginStream => _loginController.stream;
+
+  LoginModel _loginModel = LoginModel();
 
   void dispose() {
-    _isLoadingController.close();
+    _loginController.close();
   }
 
-  void _setIsLoading(bool isLoading) => _isLoadingController.add(isLoading);
-
-  Future<User> _signIn(Future<User> Function() signInMethod) async {
-    try {
-      _setIsLoading(true);
-      return await signInMethod();
-    } catch (e) {
-      _setIsLoading(false);
-      rethrow;
-    }
+  void updatePassword(String password) {
+    updateWith(password: password);
+    updateWith(
+        submitEnabled:
+            (_loginModel.password.isNotEmpty && _loginModel.email.isNotEmpty));
   }
 
-  Future<User> signInWithEmailAndPassword(
-      {@required String email, @required String password}) async {
+  void updateEmail(String email) {
+    updateWith(email: email);
+    updateWith(
+        submitEnabled:
+            (_loginModel.password.isNotEmpty && _loginModel.email.isNotEmpty));
+  }
+
+  void updateWith({
+    String email,
+    String password,
+    bool submitEnabled,
+    bool isLoading,
+  }) {
+    _loginModel = _loginModel.copyWith(
+      email: email,
+      password: password,
+      isLoading: isLoading,
+      submitEnabled:
+          (_loginModel.password.isNotEmpty && _loginModel.email.isNotEmpty),
+    );
+    _loginController.add(_loginModel);
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    updateWith(isLoading: true);
     try {
-      _setIsLoading(true);
       return await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+          email: _loginModel.email, password: _loginModel.password);
     } catch (e) {
       rethrow;
     } finally {
-      _setIsLoading(false);
+      updateWith(isLoading: false);
+    }
+  }
+
+  Future<User> _signIn(Future<User> Function() signInMethod) async {
+    try {
+      updateWith(isLoading: true);
+      return await signInMethod();
+    } catch (e) {
+      rethrow;
+    } finally {
+      updateWith(isLoading: false);
     }
   }
 

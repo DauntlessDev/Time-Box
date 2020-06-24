@@ -4,6 +4,7 @@ import 'package:TimeTracker/components/input_textfield.dart';
 import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/components/purple_bg.dart';
 import 'package:TimeTracker/screens/login/login_bloc.dart';
+import 'package:TimeTracker/screens/login/login_model.dart';
 import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/screens/signup_page.dart';
 import 'package:TimeTracker/services/auth.dart';
@@ -40,8 +41,6 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  AuthBase auth;
-
   void showPlatformExceptionAlertDialog(Exception e) {
     PlatformExceptionAlertDialog(title: 'Sign in', exception: e).show(context);
   }
@@ -56,6 +55,16 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      await widget.bloc.signInWithEmailAndPassword();
+    } on PlatformException catch (e) {
+      showPlatformExceptionAlertDialog(e);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future<void> _signInWithGoogle() async =>
       _signIn(widget.bloc.signInWithGoogle());
   Future<void> _signInWithFacebook() async =>
@@ -63,35 +72,22 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _signInAnonymously() async =>
       _signIn(widget.bloc.signInAnonymously());
 
-  String _username = "";
-  String _password = "";
-  Future<void> _signInWithEmailAndPassword() async => _signIn(widget.bloc
-      .signInWithEmailAndPassword(email: _username, password: _password));
-
   FocusNode _passwordNode;
   void _emailComplete() {
     Focus.of(context).requestFocus(_passwordNode);
   }
 
-  bool submitEnabled = false;
-  void updateSubmitEnabled() {
-    return setState(() {
-      submitEnabled = (_username.isNotEmpty && _password.isNotEmpty);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final constants = Constants.of(context);
-    auth = Provider.of<AuthBase>(context);
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: constants.accentColor,
-        body: StreamBuilder<bool>(
-          stream: widget.bloc.isLoadingStream,
-          initialData: false,
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        body: StreamBuilder<LoginModel>(
+          stream: widget.bloc.loginStream,
+          initialData: LoginModel(),
+          builder: (BuildContext context, AsyncSnapshot<LoginModel> snapshot) {
             return _buildContent(
               snapshot.data,
               constants,
@@ -102,9 +98,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   ModalProgressHUD _buildContent(
-      bool isLoading, Constants constants, BuildContext context) {
+      LoginModel loginModel, Constants constants, BuildContext context) {
     return ModalProgressHUD(
-      inAsyncCall: isLoading,
+      inAsyncCall: loginModel.isLoading,
       child: SafeArea(
         child: Column(
           children: [
@@ -129,10 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                             inputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             onEditingComplete: _emailComplete,
-                            callback: (value) {
-                              _username = value;
-                              updateSubmitEnabled();
-                            },
+                            callback: widget.bloc.updateEmail,
                           ),
                           SizedBox(
                             height: 20,
@@ -143,10 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                             focusNode: _passwordNode,
                             inputAction: TextInputAction.done,
                             onEditingComplete: _signInWithEmailAndPassword,
-                            callback: (value) {
-                              _password = value;
-                              updateSubmitEnabled();
-                            },
+                            callback: widget.bloc.updatePassword,
                           ),
                         ],
                       ),
@@ -156,8 +146,9 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Login',
                       color: constants.mainColor,
                       textcolor: constants.whiteColor,
-                      onPressed:
-                          submitEnabled ? _signInWithEmailAndPassword : null,
+                      onPressed: loginModel.submitEnabled
+                          ? _signInWithEmailAndPassword
+                          : null,
                     ),
                     CustomButton(
                       color: Colors.purple[300],
