@@ -14,8 +14,11 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
   }
 
   static Map<String, String> _errors = {
+
+    // if()
     ///  * `ERROR_INVALID_EMAIL` - If the [email] address is malformed.
     'ERROR_WRONG_PASSWORD': ' The user has entered a wrong password. ',
+    'PERMISSION_DENIED': ' The user has insufficient permissions. ',
 
     ///  * `ERROR_USER_NOT_FOUND` - If there is no user corresponding to the given [email] address, or if the user has been deleted.
     ///  * `ERROR_USER_DISABLED` - If the user has been disabled (for example, in the Firebase console)

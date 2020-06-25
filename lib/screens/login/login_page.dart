@@ -35,12 +35,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void dispose() {
-    _passwordNode.dispose();
-    super.dispose();
-  }
-
   void showPlatformExceptionAlertDialog(Exception e) {
     PlatformExceptionAlertDialog(title: 'Sign in', exception: e).show(context);
   }
