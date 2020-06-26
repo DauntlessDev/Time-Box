@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-class Job {
+class Job extends ChangeNotifier {
   Job({@required this.name, @required this.ratePerHour});
 
-  final String name;
-  final int ratePerHour;
+  String name;
+  int ratePerHour;
 
   factory Job.fromMap(Map<String, dynamic> data) {
     if (data == null) {
