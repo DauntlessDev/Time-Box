@@ -1,11 +1,9 @@
 import 'package:TimeTracker/components/platform_alertdialog.dart';
-import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/screens/home/form_bottomsheet.dart';
 import 'package:TimeTracker/services/database.dart';
 import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'models/job.dart';
@@ -33,25 +31,10 @@ class JobPage extends StatelessWidget {
     }
   }
 
-  Future<void> _createJob(BuildContext context, Job job) async {
-    try {
-      final Database database = Provider.of<Database>(context, listen: false);
-      await database.createJob(job);
-    } on PlatformException catch (e) {
-      PlatformExceptionAlertDialog(
-        title: 'Operation Failed',
-        exception: e,
-      ).show(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final constants = Constants.of(context);
-
-    Future<void> createJob(Job job) async {
-      await _createJob(context, job);
-    }
+    final database = Provider.of<Database>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +55,7 @@ class JobPage extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => FormBottomSheet(createJob),
+            builder: (context) => FormBottomSheet(database),
           );
         },
       ),
