@@ -7,18 +7,22 @@ class FirestoreService {
   static FirestoreService intance = FirestoreService._();
 
   Stream<List<T>> collectionStream<T>(
-      {@required path, @required T builder(Map<String, dynamic> data)}) {
+      {@required path,
+      @required T builder(Map<String, dynamic> data, String documentID)}) {
     final CollectionReference documentReference =
         Firestore.instance.collection(path);
     final Stream<QuerySnapshot> snapshots = documentReference.snapshots();
     return snapshots.map(
-      (snapshot) =>
-          snapshot.documents.map((snapshot) => builder(snapshot.data)).toList(),
+      (snapshot) => snapshot.documents
+          .map((snapshot) => builder(snapshot.data, snapshot.documentID))
+          .toList(),
     );
   }
 
-  Future<void> setData(
-      {@required String path, @required Map<String, dynamic> data}) async {
+  Future<void> setData({
+    @required String path,
+    @required Map<String, dynamic> data,
+  }) async {
     final documentReference = Firestore.instance.document(path);
     debugPrint('$path : $data');
 

@@ -1,5 +1,5 @@
 import 'package:TimeTracker/utils/constants.dart';
-import 'package:TimeTracker/screens/home/job_page.dart';
+import 'package:TimeTracker/screens/home/job/job_page.dart';
 import 'package:TimeTracker/screens/landing_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:TimeTracker/screens/home/job_page.dart';
+import 'package:TimeTracker/screens/home/job/job_page.dart';
 import 'package:TimeTracker/screens/login/login_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:TimeTracker/services/database.dart';

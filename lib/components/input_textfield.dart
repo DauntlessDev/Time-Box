@@ -2,15 +2,16 @@ import 'package:TimeTracker/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class InputTextField extends StatelessWidget {
-  InputTextField(
-      {@required this.text,
-      @required this.callback,
-      @required this.inputAction,
-      this.errorText,
-      this.obsecured = false,
-      this.keyboardType = TextInputType.text,
-      this.focusNode,
-      this.onEditingComplete});
+  InputTextField({
+    @required this.text,
+    @required this.callback,
+    @required this.inputAction,
+    this.errorText,
+    this.obsecured = false,
+    this.keyboardType = TextInputType.text,
+    this.focusNode,
+    this.onEditingComplete,
+  });
 
   final String text;
   final String errorText;

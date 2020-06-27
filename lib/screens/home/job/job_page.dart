@@ -1,12 +1,13 @@
 import 'package:TimeTracker/components/platform_alertdialog.dart';
-import 'package:TimeTracker/screens/home/form_bottomsheet.dart';
+import 'package:TimeTracker/screens/home/job/edit_job_bottomsheet.dart';
+import 'package:TimeTracker/screens/home/job/job_listtile.dart';
 import 'package:TimeTracker/services/database.dart';
 import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'models/job.dart';
+import '../models/job.dart';
 
 class JobPage extends StatelessWidget {
   static final id = 'HomePage';
@@ -53,10 +54,7 @@ class JobPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) => FormBottomSheet(database),
-          );
+          EditJobBottomSheet.show(context, database: database);
         },
       ),
       body: _buildContent(context),
@@ -74,7 +72,12 @@ class JobPage extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
         final List<Job> jobs = snapshot.data;
-        final List<Text> children = jobs.map((job) => Text(job.name)).toList();
+        final List<JobListTile> children = jobs
+            .map((job) => JobListTile(
+                job: job,
+                onTap: () => EditJobBottomSheet.show(context,
+                    database: database, job: job)))
+            .toList();
         return ListView(children: children);
       },
     );
