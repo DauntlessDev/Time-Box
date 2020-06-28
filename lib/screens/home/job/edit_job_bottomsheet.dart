@@ -4,7 +4,6 @@ import 'package:TimeTracker/services/database.dart';
 import 'package:TimeTracker/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../models/job.dart';
 
@@ -51,6 +50,7 @@ class _EditJobBottomSheetState extends State<EditJobBottomSheet> {
     return false;
   }
 
+  bool isLoading = false;
   Database get database => widget.database;
   Future<void> _createJob() async {
     if (_validateAndSaveForm()) {
@@ -88,40 +88,43 @@ class _EditJobBottomSheetState extends State<EditJobBottomSheet> {
     }
   }
 
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final constants = Constants.of(context);
-    return ModalProgressHUD(
-      inAsyncCall: isLoading,
-      child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 55),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  widget.job == null ? 'Add Job' : "Edit Job",
-                  style: TextStyle(
-                    color: constants.mainColor,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                _buildForm(),
-                SizedBox(height: 45),
-                CustomButton(
+
+    if (isLoading == true) {
+      return Center(
+          heightFactor: double.minPositive,
+          widthFactor: double.minPositive,
+          child: CircularProgressIndicator());
+    }
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 55),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                widget.job == null ? 'Add Job' : "Edit Job",
+                style: TextStyle(
                   color: constants.mainColor,
-                  onPressed: () => _createJob(),
-                  text: 'Confirm',
-                  textcolor: constants.accentColor,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
+              ),
+              _buildForm(),
+              SizedBox(height: 45),
+              CustomButton(
+                color: constants.mainColor,
+                onPressed: () => _createJob(),
+                text: 'Confirm',
+                textcolor: constants.accentColor,
+              ),
+            ],
           ),
         ),
       ),

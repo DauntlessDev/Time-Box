@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:TimeTracker/screens/home/job_entries/input_dropdown.dart';
+import 'package:TimeTracker/components/input_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:TimeTracker/screens/home/job_entries/format.dart';
 

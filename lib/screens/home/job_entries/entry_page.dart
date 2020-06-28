@@ -3,7 +3,7 @@ import 'package:TimeTracker/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:TimeTracker/screens/home/job_entries/date_time_picker.dart';
+import 'package:TimeTracker/components/date_time_picker.dart';
 import 'package:TimeTracker/screens/home/job_entries/format.dart';
 import 'package:TimeTracker/screens/home/models/entry.dart';
 import 'package:TimeTracker/screens/home/models/job.dart';
@@ -64,10 +64,18 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
+  bool isLoading = false;
   Future<void> _setEntryAndDismiss(BuildContext context) async {
     try {
       final entry = _entryFromState();
+      setState(() {
+        isLoading = true;
+      });
       await widget.database.setEntry(entry);
+
+      setState(() {
+        isLoading = true;
+      });
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
@@ -79,6 +87,12 @@ class _EntryPageState extends State<EntryPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading == true) {
+      return Center(
+          heightFactor: double.minPositive,
+          widthFactor: double.minPositive,
+          child: CircularProgressIndicator());
+    }
     return SingleChildScrollView(
       child: Padding(
         padding:
