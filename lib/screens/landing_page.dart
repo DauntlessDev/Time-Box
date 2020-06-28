@@ -1,4 +1,4 @@
-import 'package:TimeTracker/screens/home/job/job_page.dart';
+import 'package:TimeTracker/screens/home/home_page.dart';
 import 'package:TimeTracker/screens/login/login_page.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:TimeTracker/services/database.dart';
@@ -22,7 +22,7 @@ class LandingPage extends StatelessWidget {
               return Provider<Database>(
                   create: (BuildContext context) =>
                       FirestoreDatabase(uid: user.uid),
-                  child: JobPage());
+                  child: HomePage());
             }
           } else {
             return Scaffold(

@@ -67,6 +67,7 @@ class JobPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        backgroundColor: Colors.deepPurple,
         onPressed: () {
           EditJobBottomSheet.show(context, database: database);
         },

@@ -1,0 +1,36 @@
+import 'package:TimeTracker/screens/home/cupertino_home_scaffold.dart';
+import 'package:TimeTracker/screens/home/tab_item.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'job/job_page.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TabItem _currentTab = TabItem.jobs;
+
+  void _select(TabItem value) {
+    setState(() => _currentTab = value);
+  }
+
+  Map<TabItem, WidgetBuilder> get widgetBuilders {
+    return {
+      TabItem.jobs: (_) => JobPage(),
+      TabItem.entries: (_) => Container(),
+      TabItem.account: (_) => Container(),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoHomeScaffold(
+      currentTab: _currentTab,
+      onSelectTab: _select,
+      widgetBuilders: widgetBuilders,
+    );
+  }
+}
