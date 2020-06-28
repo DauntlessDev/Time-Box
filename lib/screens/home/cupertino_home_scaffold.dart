@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 class CupertinoHomeScaffold extends StatelessWidget {
   final TabItem currentTab;
   final ValueChanged<TabItem> onSelectTab;
-
   final Map<TabItem, WidgetBuilder> widgetBuilders;
+  final Map<TabItem, GlobalKey<NavigatorState>> navigatorKey;
 
   const CupertinoHomeScaffold(
       {Key key,
       @required this.currentTab,
       @required this.onSelectTab,
       @required this.widgetBuilders,
+      @required this.navigatorKey,
       CupertinoTabBar builder})
       : super(key: key);
 
@@ -32,6 +33,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.only(bottom: 50),
           child: CupertinoTabView(
+            navigatorKey: navigatorKey[item],
             builder: (context) => widgetBuilders[item](context),
           ),
         );

@@ -46,7 +46,7 @@ class JobEntriesPage extends StatelessWidget {
         stream: database.jobStream(jobId: job.id),
         builder: (context, snapshot) {
           final job = snapshot.data;
-          final jobName = job.name;
+          final jobName = job?.name ?? '';
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.deepPurple,

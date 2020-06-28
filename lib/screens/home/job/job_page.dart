@@ -13,6 +13,7 @@ import '../models/job.dart';
 
 class JobPage extends StatelessWidget {
   static final id = 'HomePage';
+  static final navigatorKey = GlobalKey<NavigatorState>();
 
   Future<void> _deleteJob(BuildContext context, Job job) async {
     try {
