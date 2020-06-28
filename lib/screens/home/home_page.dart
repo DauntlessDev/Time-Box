@@ -1,3 +1,4 @@
+import 'package:TimeTracker/screens/account/account_page.dart';
 import 'package:TimeTracker/screens/home/cupertino_home_scaffold.dart';
 import 'package:TimeTracker/screens/home/tab_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     return {
       TabItem.jobs: (_) => JobPage(),
       TabItem.entries: (_) => Container(),
-      TabItem.account: (_) => Container(),
+      TabItem.account: (_) => AccountPage(),
     };
   }
 
