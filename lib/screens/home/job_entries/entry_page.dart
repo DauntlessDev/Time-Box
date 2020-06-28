@@ -14,13 +14,13 @@ class EntryPage extends StatefulWidget {
   final Entry entry;
   final Database database;
 
-  static Future<void> show({BuildContext context, Database database, Job job, Entry entry}) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) =>
-            EntryPage(database: database, job: job, entry: entry),
-        fullscreenDialog: true,
-      ),
+  static Future<void> show(
+      {BuildContext context, Database database, Job job, Entry entry}) async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) =>
+          EntryPage(database: database, job: job, entry: entry),
     );
   }
 
@@ -79,33 +79,40 @@ class _EntryPageState extends State<EntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 2.0,
-        title: Text(widget.job.name),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              widget.entry != null ? 'Update' : 'Create',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
-            ),
-            onPressed: () => _setEntryAndDismiss(context),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 30),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Text(
+                'Add Entries',
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20.0),
               _buildStartDate(),
               _buildEndDate(),
               SizedBox(height: 8.0),
               _buildDuration(),
               SizedBox(height: 8.0),
               _buildComment(),
+              FlatButton(
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                color: Colors.deepPurple,
+                child: Text(
+                  widget.entry != null ? 'Update' : 'Create',
+                  style: TextStyle(fontSize: 18.0, color: Colors.white),
+                ),
+                onPressed: () => _setEntryAndDismiss(context),
+              ),
             ],
           ),
         ),

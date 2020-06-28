@@ -17,6 +17,7 @@ class EditJobBottomSheet extends StatefulWidget {
       {Database database, Job job}) async {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) => EditJobBottomSheet(database: database, job: job),
     );
   }

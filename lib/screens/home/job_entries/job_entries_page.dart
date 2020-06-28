@@ -20,7 +20,7 @@ class JobEntriesPage extends StatelessWidget {
   final Job job;
 
   static Future<void> show(BuildContext context, Job job) async {
-    final Database database = Provider.of<Database>(context);
+    final Database database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: false,
@@ -44,6 +44,7 @@ class JobEntriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
         elevation: 2.0,
         title: Text(job.name),
         actions: <Widget>[

@@ -3,6 +3,7 @@ import 'package:TimeTracker/components/platformexception_alertdialog.dart';
 import 'package:TimeTracker/screens/home/job/edit_job_bottomsheet.dart';
 import 'package:TimeTracker/screens/home/job/job_listtile.dart';
 import 'package:TimeTracker/screens/home/job/listitem_builder.dart';
+import 'package:TimeTracker/screens/home/job_entries/job_entries_page.dart';
 import 'package:TimeTracker/services/database.dart';
 import 'package:TimeTracker/utils/constants.dart';
 import 'package:TimeTracker/services/auth.dart';
@@ -94,8 +95,7 @@ class JobPage extends StatelessWidget {
             key: Key('job-${job.id}'),
             child: JobListTile(
               job: job,
-              onTap: () => EditJobBottomSheet.show(context,
-                  database: database, job: job),
+              onTap: () => JobEntriesPage.show(context, job),
             ),
           ),
         );
