@@ -19,10 +19,13 @@ class LandingPage extends StatelessWidget {
             if (user == null) {
               return LoginPage.create(context);
             } else {
-              return Provider<Database>(
-                  create: (BuildContext context) =>
-                      FirestoreDatabase(uid: user.uid),
-                  child: HomePage());
+              return Provider<User>.value(
+                              value: user,
+                              child: Provider<Database>(
+                    create: (BuildContext context) =>
+                        FirestoreDatabase(uid: user.uid),
+                    child: HomePage()),
+              );
             }
           } else {
             return Scaffold(

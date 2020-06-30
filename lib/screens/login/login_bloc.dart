@@ -3,33 +3,31 @@ import 'dart:async';
 import 'package:TimeTracker/screens/login/login_model.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LoginBloc {
   LoginBloc({@required this.auth});
   final AuthBase auth;
 
-  final StreamController<LoginModel> _loginController =
-      StreamController<LoginModel>();
-  Stream<LoginModel> get loginStream => _loginController.stream;
+  final _modelSubject = BehaviorSubject<LoginModel>.seeded(LoginModel());
 
-  LoginModel _loginModel = LoginModel();
+  Stream<LoginModel> get loginStream => _modelSubject.stream;
+  LoginModel get _model => _modelSubject.value;
 
   void dispose() {
-    _loginController.close();
+    _modelSubject.close();
   }
 
   void updatePassword(String password) {
     updateWith(password: password);
     updateWith(
-        submitEnabled:
-            (_loginModel.password.isNotEmpty && _loginModel.email.isNotEmpty));
+        submitEnabled: (_model.password.isNotEmpty && _model.email.isNotEmpty));
   }
 
   void updateEmail(String email) {
     updateWith(email: email);
     updateWith(
-        submitEnabled:
-            (_loginModel.password.isNotEmpty && _loginModel.email.isNotEmpty));
+        submitEnabled: (_model.password.isNotEmpty && _model.email.isNotEmpty));
   }
 
   void updateWith({
@@ -38,21 +36,21 @@ class LoginBloc {
     bool submitEnabled,
     bool isLoading,
   }) {
-    _loginModel = _loginModel.copyWith(
-      email: email,
-      password: password,
-      isLoading: isLoading,
-      submitEnabled:
-          (_loginModel.password.isNotEmpty && _loginModel.email.isNotEmpty),
+    _modelSubject.add(
+      _model.copyWith(
+        email: email,
+        password: password,
+        isLoading: isLoading,
+        submitEnabled: (_model.password.isNotEmpty && _model.email.isNotEmpty),
+      ),
     );
-    _loginController.add(_loginModel);
   }
 
   Future<void> signInWithEmailAndPassword() async {
     updateWith(isLoading: true);
     try {
       return await auth.signInWithEmailAndPassword(
-          email: _loginModel.email, password: _loginModel.password);
+          email: _model.email, password: _model.password);
     } catch (e) {
       rethrow;
     } finally {

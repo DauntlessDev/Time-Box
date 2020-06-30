@@ -4,8 +4,13 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class User {
-  User({@required this.uid});
+  User(
+      {@required this.displayName,
+      @required this.photoUrl,
+      @required this.uid});
   final String uid;
+  final String displayName;
+  final String photoUrl;
 }
 
 abstract class AuthBase {
@@ -29,7 +34,8 @@ class Auth extends AuthBase {
       return null;
     }
 
-    return User(uid: user.uid);
+    return User(
+        uid: user.uid, displayName: user.displayName, photoUrl: user.photoUrl);
   }
 
   @override

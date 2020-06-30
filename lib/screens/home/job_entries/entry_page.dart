@@ -67,10 +67,11 @@ class _EntryPageState extends State<EntryPage> {
   bool isLoading = false;
   Future<void> _setEntryAndDismiss(BuildContext context) async {
     try {
-      final entry = _entryFromState();
       setState(() {
         isLoading = true;
       });
+
+      final entry = _entryFromState();
       await widget.database.setEntry(entry);
 
       setState(() {
@@ -104,7 +105,7 @@ class _EntryPageState extends State<EntryPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Add Entries',
+                widget.entry == null ? 'Add Entries' : 'Edit Entries',
                 style: TextStyle(
                   color: Colors.deepPurple,
                   fontSize: 25,

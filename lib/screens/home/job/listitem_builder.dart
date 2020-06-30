@@ -10,19 +10,20 @@ class ListItemBuilder<T> extends StatelessWidget {
   final ItemWidgetBuilder<T> itemBuilder;
   @override
   Widget build(BuildContext context) {
-    if (snapshot.hasData) {
-      final List<T> items = snapshot.data;
-      if (items.isNotEmpty) {
-        return _buildList(items);
+    if (snapshot.connectionState == ConnectionState.active) {
+      if (snapshot.hasData) {
+        final List<T> items = snapshot.data;
+        if (items.isNotEmpty) {
+          return _buildList(items);
+        }
+        return EmptyContent();
+      } else if (snapshot.hasError) {
+        return EmptyContent(
+          title: 'Loading Error',
+          message: 'Something has gone wrong',
+        );
       }
-      return EmptyContent();
-    } else if (snapshot.hasError) {
-      return EmptyContent(
-        title: 'Loading Error',
-        message: 'Something has gone wrong',
-      );
     }
-
     return Center(child: CircularProgressIndicator());
   }
 

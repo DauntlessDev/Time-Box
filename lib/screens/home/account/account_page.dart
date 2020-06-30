@@ -1,3 +1,4 @@
+import 'package:TimeTracker/components/avatar.dart';
 import 'package:TimeTracker/components/platform_alertdialog.dart';
 import 'package:TimeTracker/services/auth.dart';
 import 'package:TimeTracker/utils/constants.dart';
@@ -30,6 +31,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final constants = Constants.of(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +46,33 @@ class AccountPage extends StatelessWidget {
             ),
           )
         ],
+        bottom: PreferredSize(
+            child: _buildUserInfo(user), preferredSize: Size.fromHeight(130)),
       ),
+    );
+  }
+
+  Widget _buildUserInfo(User user) {
+    return Column(
+      children: <Widget>[
+        Avatar(
+          radius: 50,
+          photoUrl: user.photoUrl,
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        if (user.displayName != null)
+          Text(
+            user.displayName,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        SizedBox(
+          height: 8,
+        ),
+      ],
     );
   }
 }
