@@ -26,6 +26,13 @@ class InputValidator {
                 : field.isEmpty ? 'Field can\'t be empty.' : null);
   }
 
+  bool isValid(String text) {
+    if (text == null) {
+      return false;
+    }
+    return text.isNotEmpty;
+  }
+
   void passwordDoesNotMatch() {
     _passwordDoesNotMatch = true;
   }
