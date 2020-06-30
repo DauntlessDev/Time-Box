@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class Job extends ChangeNotifier {
@@ -9,6 +10,10 @@ class Job extends ChangeNotifier {
 
   factory Job.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
+      return null;
+    }
+
+    if (data['name'] == null) {
       return null;
     }
 
@@ -24,5 +29,23 @@ class Job extends ChangeNotifier {
       'name': name,
       'ratePerHour': ratePerHour,
     };
+  }
+
+  @override
+  String toString() {
+    return 'id: $id, name: $name, ratePerHour: $ratePerHour';
+  }
+
+  @override
+  int get hashCode => hashValues(id, name, ratePerHour);
+
+  @override
+  bool operator ==(other) {
+    if (identical(this, other)) return true;
+    if (runtimeType != other.runtimeType) return false;
+    final Job otherJob = other;
+    return id == otherJob.id &&
+        name == otherJob.name &&
+        ratePerHour == otherJob.ratePerHour;
   }
 }
