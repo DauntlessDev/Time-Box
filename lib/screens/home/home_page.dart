@@ -1,4 +1,3 @@
-import 'package:TimeTracker/screens/entry/allentry_page.dart';
 import 'package:TimeTracker/screens/home/account/account_page.dart';
 import 'package:TimeTracker/screens/home/cupertino_home_scaffold.dart';
 import 'package:TimeTracker/screens/home/entries/entries_page.dart';
@@ -27,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   Map<TabItem, GlobalKey<NavigatorState>> get navigatorKey {
     return {
       TabItem.jobs: JobPage.navigatorKey,
-      TabItem.entries: AllEntryPage.navigatorKey,
+      TabItem.entries: EntriesPage.navigatorKey,
       TabItem.account: AccountPage.navigatorKey,
     };
   }

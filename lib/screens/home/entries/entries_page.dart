@@ -7,6 +7,8 @@ import 'entries_bloc.dart';
 import 'entries_list_tile.dart';
 
 class EntriesPage extends StatelessWidget {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+  
   static Widget create(BuildContext context) {
     final database = Provider.of<Database>(context);
     return Provider<EntriesBloc>(

@@ -23,6 +23,7 @@ dependencies:
   cloud_firestore: ^0.13.7
   intl: ^0.16.1
   rxdart: ^0.24.1
+  mockito: ^4.1.1
 
 
   # The following adds the Cupertino Icons font to your application.
