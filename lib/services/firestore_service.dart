@@ -10,13 +10,11 @@ class FirestoreService {
     @required Map<String, dynamic> data,
   }) async {
     final reference = Firestore.instance.document(path);
-    print('$path: $data');
     await reference.setData(data);
   }
 
   Future<void> deleteData({@required String path}) async {
     final reference = Firestore.instance.document(path);
-    print('delete: $path');
     await reference.delete();
   }
 
@@ -36,6 +34,7 @@ class FirestoreService {
           .map((snapshot) => builder(snapshot.data, snapshot.documentID))
           .where((value) => value != null)
           .toList();
+          
       if (sort != null) {
         result.sort(sort);
       }

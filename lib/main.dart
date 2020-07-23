@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.black);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.deepPurple);
 
     return Constants(
       child: Provider<AuthBase>(
@@ -21,7 +21,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: ThemeData(
             accentColor: Colors.deepPurple,
+            primaryColor: Colors.deepPurple,
+            splashColor: Colors.deepPurple,
+            cardColor: Colors.deepPurple,
+            backgroundColor: Colors.deepPurple,
+            highlightColor: Colors.deepPurple,
           ),
+          debugShowCheckedModeBanner: false,
           title: 'timeBox',
           initialRoute: LandingPage.id,
           routes: {
